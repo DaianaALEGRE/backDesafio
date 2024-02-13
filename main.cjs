@@ -1,4 +1,4 @@
-const fs = require('node:fs');
+const fs = require('node:fs').promises;
 
 class ProductManager {
   static idCount = 1;
@@ -36,18 +36,18 @@ class ProductManager {
     }
   }
 
-  saveProducts() {
+ async saveProducts() {
     try {
-      fs.writeFileSync(this.path, JSON.stringify(this.products), 'utf8');
+      await fs.writeFileSync(this.path, JSON.stringify(this.products,null,2), 'utf8');
       console.log('Productos guardados correctamente.');
     } catch (error) {
       console.error('Error al guardar los productos:', error);
     }
   }
 
-  loadProducts() {
+ async loadProducts() {
     try {
-      const data = fs.readFileSync(this.path, 'utf8');
+      const data =await fs.readFileSync(this.path, 'utf8');
       this.products = JSON.parse(data);
       console.log('Productos cargados correctamente.');
     } catch (error) {
