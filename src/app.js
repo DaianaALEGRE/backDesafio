@@ -1,7 +1,7 @@
 import ProductManager from './main.js';
 import express from 'express';
 
-const manager = new ProductManager('productos.json'); // Crear una instancia de ProductManager
+const manager = new ProductManager('product.JSON'); // Crear una instancia de ProductManager
 
 
 

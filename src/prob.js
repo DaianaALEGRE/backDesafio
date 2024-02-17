@@ -1,4 +1,6 @@
-import fs from 'fs';
+import { promises as fsPromises } from 'node:fs';
+
+
 
 class ProductManager {
   static idCount = 1;
@@ -9,17 +11,19 @@ class ProductManager {
     this.loadProducts();
   }
 
-  addProduct(title, description, price, thumbnail, code, stock) {
-    try {
+  async addProduct(title, description, price, thumbnail, code, stock) {
+   
+   await this.loadProducts(); 
+   try {
       if (!title || !description || !price || !thumbnail || !code || !stock) {
         throw new Error("Por favor complete todos los campos");
       }
       if (this.products.some(item => item.code === code)) {
         throw new Error(`El código ${code} ya está en uso`);
       }
-      const maxId = this.products.reduce((max, product) => Math.max(max, product.id), 0);
+
       const product = {
-        id: maxId + 1, // Corrección aquí
+        id: ProductManager.idCount++,
         title: title,
         description: description,
         price: price,
@@ -29,30 +33,29 @@ class ProductManager {
       };
 
       this.products.push(product);
-      this.saveProducts();
+      await this.saveProducts();
       console.log(`Producto añadido correctamente con ID: ${product.id}`);
     } catch (error) {
       console.error("Error al agregar producto:", error.message);
     }
   }
 
-  saveProducts() {
+  async saveProducts() {
     try {
-        fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2), 'utf8');
-        
+      await fsPromises.writeFile(this.path, JSON.stringify(this.products, null, 2), 'utf8');
       console.log('Productos guardados correctamente.');
     } catch (error) {
       console.error('Error al guardar los productos:', error);
     }
   }
 
-  loadProducts() {
+  async loadProducts() {
     try {
-      const data = fs.readFileSync(this.path, 'utf8');
+      const data = await fsPromises.readFile(this.path, 'utf8');
       this.products = JSON.parse(data);
-      console.log('Productos cargados correctamente.');
+      console.log('Producto cargado correctamente (load).');
     } catch (error) {
-      console.error('Error al cargar los productos:', error);
+      console.error('Error al cargar producto:', error);
     }
   }
 
@@ -71,26 +74,25 @@ class ProductManager {
   }
 
   updateProduct(id, title, description, price, thumbnail, code, stock) {
+    const productIndex = this.products.findIndex(item => item.id === id);
     try {
-        const productIndex = this.products.findIndex(item => item.id === id);
-        if (productIndex === -1) {
-            throw new Error("No se encontró el producto");
-        }
+      if (productIndex === -1) {
+        throw new Error("No se encontró el producto");
+      }
 
-        this.products[productIndex].title = title;
-        this.products[productIndex].description = description;
-        this.products[productIndex].price = price;
-        this.products[productIndex].thumbnail = thumbnail;
-        this.products[productIndex].code = code;
-        this.products[productIndex].stock = stock;
+      this.products[productIndex].title = title;
+      this.products[productIndex].description = description;
+      this.products[productIndex].price = price;
+      this.products[productIndex].thumbnail = thumbnail;
+      this.products[productIndex].code = code;
+      this.products[productIndex].stock = stock;
 
-        console.log(`Producto con ID ${id} actualizado correctamente.`);
-        this.saveProducts(); // Guardar los cambios
+      console.log(`Producto con ID ${id} actualizado correctamente.`);
+      this.saveProducts(); // Guardar los cambios
     } catch (error) {
-        console.error("Error al actualizar producto:", error.message);
+      console.error("Error al actualizar producto:", error.message);
     }
-}
-
+  }
 
   deleteProduct(id) {
     const index = this.products.findIndex(item => item.id === id);
@@ -107,10 +109,11 @@ class ProductManager {
     }
   }
 }
-// add get getbyid
 
-const manager = new ProductManager('product.JSON');
-
+const manager = new ProductManager('./productos.json') ;
 
 
-export default ProductManager;
+ 
+
+//export default ProductManager;
+ 
