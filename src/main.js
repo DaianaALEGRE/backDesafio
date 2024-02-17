@@ -51,9 +51,9 @@ class ProductManager {
     try {
       const data = await fsPromises.readFile(this.path, 'utf8');
       this.products = JSON.parse(data);
-      console.log('Productos cargados correctamente.');
+      console.log('Producto cargado correctamente.');
     } catch (error) {
-      console.error('Error al cargar los productos:', error);
+      console.error('Error al cargar producto:', error);
     }
   }
 
