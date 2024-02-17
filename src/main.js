@@ -111,6 +111,4 @@ class ProductManager {
 
 const manager = new ProductManager('product.JSON');
 
-
-
 export default ProductManager;
