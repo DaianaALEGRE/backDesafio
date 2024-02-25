@@ -60,7 +60,7 @@ class ProductManager {
     return this.products;
   }
 
-  getProductById(id) {
+  static getProductById(id) {
     const item = this.products.find(item => item.id === id)
 
     if (!item) {
