@@ -1,14 +1,14 @@
 import fs from 'fs';
 
 class ProductManager {
-  static idCount = 1;
+    static idCount = 1;
+    static products = [];
 
-  constructor(path) {
-    this.path = path;
-    this.products = [];
-    this.loadProducts();
-  }
-
+    constructor(path) {
+        this.path = path;
+        this.products = [];
+        this.loadProducts();
+    }
   addProduct(title, description, price, thumbnail, code, stock) {
     try {
       if (!title || !description || !price || !thumbnail || !code || !stock) {
@@ -60,7 +60,7 @@ class ProductManager {
     return this.products;
   }
 
-  static getProductById(id) {
+   getProductById(id) {
     const item = this.products.find(item => item.id === id)
 
     if (!item) {
@@ -108,6 +108,7 @@ class ProductManager {
   }
 }
 // add get getbyid
+
 
 const manager = new ProductManager('product.JSON');
 
