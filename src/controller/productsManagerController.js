@@ -1,14 +1,14 @@
 import fs from 'fs';
 
 class ProductManager {
-    static idCount = 1;
-    static products = [];
+  static idCount = 1;
+  static products = [];
 
-    constructor(path) {
-        this.path = path;
-        this.products = [];
-        this.loadProducts();
-    }
+  constructor(path) {
+    this.path = path;
+    this.products = [];
+    this.loadProducts();
+  }
   addProduct(title, description, price, thumbnail, code, stock) {
     try {
       if (!title || !description || !price || !thumbnail || !code || !stock) {
@@ -38,8 +38,8 @@ class ProductManager {
 
   saveProducts() {
     try {
-        fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2), 'utf8');
-        
+      fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2), 'utf8');
+
       console.log('Productos guardados correctamente.');
     } catch (error) {
       console.error('Error al guardar los productos:', error);
@@ -60,7 +60,7 @@ class ProductManager {
     return this.products;
   }
 
-   getProductById(id) {
+  getProductById(id) {
     const item = this.products.find(item => item.id === id)
 
     if (!item) {
@@ -70,27 +70,26 @@ class ProductManager {
     }
   }
 
-  updateProduct(id, title, description, price, thumbnail, code, stock) {
+  updateProduct(id, updatedProduct) {
     try {
         const productIndex = this.products.findIndex(item => item.id === id);
         if (productIndex === -1) {
             throw new Error("No se encontró el producto");
         }
 
-        this.products[productIndex].title = title;
-        this.products[productIndex].description = description;
-        this.products[productIndex].price = price;
-        this.products[productIndex].thumbnail = thumbnail;
-        this.products[productIndex].code = code;
-        this.products[productIndex].stock = stock;
+        // Actualizar solo los campos proporcionados en updatedProduct
+        for (let key in updatedProduct) {
+            if (updatedProduct.hasOwnProperty(key)) {
+                this.products[productIndex][key] = updatedProduct[key];
+            }
+        }
 
         console.log(`Producto con ID ${id} actualizado correctamente.`);
-        this.saveProducts(); // Guardar los cambios
+        this.saveProducts(); 
     } catch (error) {
         console.error("Error al actualizar producto:", error.message);
     }
 }
-
 
   deleteProduct(id) {
     const index = this.products.findIndex(item => item.id === id);

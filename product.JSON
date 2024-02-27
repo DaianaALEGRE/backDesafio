@@ -10,12 +10,12 @@
   },
   {
     "id": 2,
-    "title": "cambiado",
-    "description": "Nueva Descripción 2",
+    "title": "dasdasd",
+    "description": "temon",
     "price": 20,
-    "thumbnail": "nueva_imagen.jpg",
-    "code": "XYZ789",
-    "stock": 3
+    "thumbnail": "sin imagen",
+    "code": "10abc",
+    "stock": 10
   },
   {
     "id": 3,
@@ -25,15 +25,6 @@
     "thumbnail": "nueva_imagen.jpg",
     "code": "XYZ789",
     "stock": 3
-  },
-  {
-    "id": 4,
-    "title": "alg",
-    "description": "algo",
-    "price": 20,
-    "thumbnail": "sadsad",
-    "code": "4",
-    "stock": 8
   },
   {
     "id": 5,
@@ -69,24 +60,6 @@
     "price": 90,
     "thumbnail": "imagen",
     "code": "asd126",
-    "stock": 50
-  },
-  {
-    "id": 9,
-    "title": "producto prueba 9",
-    "description": "este es un producto de prueba",
-    "price": 90,
-    "thumbnail": "imagen",
-    "code": "asd120",
-    "stock": 50
-  },
-  {
-    "id": 10,
-    "title": "producto prueba 10",
-    "description": "este es un producto de prueba",
-    "price": 90,
-    "thumbnail": "imagen",
-    "code": "asd121",
     "stock": 50
   }
 ]

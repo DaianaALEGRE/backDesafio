@@ -37,6 +37,41 @@ productsRouter.get('/', (req, res) => {
     const products = manager.getProducts();
     res.json(products);
 });
+//4) Actualizar por ID
+productsRouter.put("/:pid", async (req, res) => {
+    const id = req.params.pid;
+    const productoActualizado = req.body;
+
+    try {
+        await manager.updateProduct(parseInt(id), productoActualizado);
+        res.json({
+            message: "Producto actualizado exitosamente"
+        });
+    } catch (error) {
+        console.error("Error al actualizar producto", error);
+        res.status(500).json({
+            error: "Error interno del servidor"
+        });
+    }
+});
+
+//5) Eliminar producto: 
+
+productsRouter.delete("/:pid", async (req, res) => {
+    const id = req.params.pid;
+
+    try {
+        await manager.deleteProduct(parseInt(id));
+        res.json({
+            message: "Producto eliminado exitosamente"
+        });
+    } catch (error) {
+        console.error("Error al eliminar producto", error);
+        res.status(500).json({
+            error: "Error interno del servidor"
+        });
+    }
+});
 
 
 export default productsRouter;
