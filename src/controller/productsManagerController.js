@@ -19,7 +19,7 @@ class ProductManager {
       }
       const maxId = this.products.reduce((max, product) => Math.max(max, product.id), 0);
       const product = {
-        id: maxId + 1, // Corrección aquí
+        id: maxId + 1, 
         title: title,
         description: description,
         price: price,
@@ -77,7 +77,6 @@ class ProductManager {
             throw new Error("No se encontró el producto");
         }
 
-        // Actualizar solo los campos proporcionados en updatedProduct
         for (let key in updatedProduct) {
             if (updatedProduct.hasOwnProperty(key)) {
                 this.products[productIndex][key] = updatedProduct[key];
@@ -109,6 +108,7 @@ class ProductManager {
 // add get getbyid
 
 
-const manager = new ProductManager('product.JSON');
+const manager = new ProductManager('./src/models/product.JSON');
+
 
 export default ProductManager;

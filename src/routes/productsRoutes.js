@@ -2,7 +2,8 @@ import { Router } from 'express';
 import ProductManager from '../controller/productsManagerController.js'; // Asegúrate de usar la ruta correcta
 
 const productsRouter = Router();
-const manager = new ProductManager('product.JSON');
+const manager = new ProductManager('./src/models/product.JSON');
+
 
 productsRouter.post("/", (req, res) => {
     const productos = req.body;

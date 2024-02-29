@@ -19,11 +19,11 @@
   },
   {
     "id": 3,
-    "title": "Nuevo Producto 3",
+    "title": "dasdasd",
     "description": "Nueva Descripción 3",
     "price": 20,
     "thumbnail": "nueva_imagen.jpg",
-    "code": "XYZ789",
+    "code": "pizza1",
     "stock": 3
   },
   {
@@ -36,8 +36,8 @@
     "stock": 50
   },
   {
-    "id": 6,
-    "title": "producto prueba 6",
+    "id": 2,
+    "title": "dasdasd",
     "description": "este es un producto de prueba",
     "price": 90,
     "thumbnail": "imagen",
