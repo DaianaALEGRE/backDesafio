@@ -36,15 +36,6 @@
     "stock": 50
   },
   {
-    "id": 2,
-    "title": "dasdasd",
-    "description": "este es un producto de prueba",
-    "price": 90,
-    "thumbnail": "imagen",
-    "code": "asd124",
-    "stock": 50
-  },
-  {
     "id": 7,
     "title": "producto prueba 7",
     "description": "este es un producto de prueba",
@@ -61,5 +52,14 @@
     "thumbnail": "imagen",
     "code": "asd126",
     "stock": 50
+  },
+  {
+    "id": 9,
+    "title": "producto magico",
+    "description": "randon",
+    "price": 70,
+    "thumbnail": "no tiene",
+    "code": "asdsf",
+    "stock": 6
   }
 ]
