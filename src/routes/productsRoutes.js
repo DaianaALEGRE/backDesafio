@@ -8,7 +8,7 @@ const manager = new ProductManager('./src/models/product.JSON');
 productsRouter.post("/", (req, res) => {
     const productos = req.body;
     manager.addProduct(productos.title, productos.description, productos.price, productos.thumbnail, productos.code, productos.stock);
-    console.log(manager.getProducts()); // Aquí puedes verificar si los productos se están agregando correctamente
+    
     res.send({ status: "success", Message: "producto creado" });
 });
 

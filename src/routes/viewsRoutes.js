@@ -1,30 +1,18 @@
 import {Router} from "express";
 const router = Router(); 
 
+//en biblio desde aca renderiza la ruta
+//router.get("/partials/realTime", (req, res) => {
 
+app.router('/realtime', (req, res) => {
+  let allProducts =  manager.getProducts();
+  res.render('partials/realTime', { title: 'este es el home', products: allProducts });
+});
+//seccion completa que saque de app.get(segun diapo 38 clase 6)
+router.get('/',  (req, res) => {
 
+  let allProducts =  manager.getProducts();
+  res.render('home', { title: 'cosita',products: allProducts });
 
-
-
-//productData=[];
-const arrayProductos = [
-    {nombre: "Fideos", descripcion: "Los mas ricos", precio: 100},
-    {nombre: "Arroz", descripcion: "El que no se pasa", precio: 200},
-    {nombre: "Helado", descripcion: "Mas frio que el corazon de tu ex", precio: 300}
-]
-
-router.get("/", (req, res) => {
-    const usuario = {
-        nombre: "Tinki",
-        apellido: "Winki",
-        mayorEdad: true
-    }
-
-    res.render("index", {titulo:"Esto es un titulo", usuario, arrayProductos});
-})
-
-router.get("/contacto", (req, res) => {
-    res.render("contacto",{titulo:"Seccion Contacto"});
-})
-
+});
 export default router; 

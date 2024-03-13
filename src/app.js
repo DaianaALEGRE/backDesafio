@@ -6,12 +6,18 @@ import multer from 'multer';
 import exphbs from 'express-handlebars';
 import ProductManager from './controller/productsManagerController.js';
 import * as path from 'path';
+import { Server } from 'socket.io';
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = 8080;
+const httpServer=app.listen(PORT, () => {
+  console.log(`Servidor escuchando en el puerto ${PORT}`);
+});
+const socketServer =new Server(httpServer)
 
 // Configuración de Multer
 const storage = multer.diskStorage({
@@ -49,17 +55,9 @@ app.set('views', path.resolve(__dirname, 'views'));
 const productFilePath = path.resolve(__dirname, 'models', 'product.JSON');
 const manager = new ProductManager(productFilePath);
 
-app.get('/',  (req, res) => {
 
-    let allProducts =  manager.getProducts();
-    res.render('home', { title: 'cosita',products: allProducts });
-
-});
 
 app.use('/api/products', productsRouter);
 app.use("/api/carts", cartRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Servidor escuchando en el puerto ${PORT}`);
-});
 

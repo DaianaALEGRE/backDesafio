@@ -61,5 +61,14 @@
     "thumbnail": "no tiene",
     "code": "asdsf",
     "stock": 6
+  },
+  {
+    "id": 10,
+    "title": "theo es un gato",
+    "description": "tiene 1 año",
+    "price": 70000,
+    "thumbnail": "no tiene",
+    "code": "gatogordo",
+    "stock": 1
   }
 ]
