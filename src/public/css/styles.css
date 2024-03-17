@@ -61,7 +61,7 @@
     outline: none;
   }
   
-  form button {
+   button {
     width: max-content;
     padding: .5rem;
     align-self: flex-end;
@@ -73,7 +73,7 @@
     margin: 1rem;
   }
   
-  form button:hover {
+   button:hover {
     background-color: #191919;
     border-color: #fff;
     color: #fff;

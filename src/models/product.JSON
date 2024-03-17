@@ -61,5 +61,41 @@
     "thumbnail": "https://www.freepik.es/foto-gratis/primer-plano-fondo-textura-glaseado-caramelo_18141770.htm#fromView=search&page=1&position=2&uuid=3672f2b2-5154-4d7b-ae85-7f1ec72d09b8",
     "code": "547869",
     "stock": "10"
+  },
+  {
+    "id": 12,
+    "title": "nose",
+    "description": "nose",
+    "price": "1000",
+    "thumbnail": "<img src=\"https://www.lavoz.com.ar/resizer/e4H9VgU599YoQLkVl5yY_Tv6Ae4=/980x640/smart/filters:quality(75):format(webp)/cloudfront-us-east-1.images.arcpublishing.com/grupoclarin/BBYNELH7TNE4HKK63C3UB4SOQQ.jpg\" jsaction=\"VQAsE\" class=\"sFlh5c pT0Scc iPVvYb\" style=\"max-width: 980px; height: 304px; margin: 0px; width: 465px;\" alt=\"Por qué el hielo flota sobre el agua?\" jsname=\"kn3ccd\" aria-hidden=\"false\">",
+    "code": "ggf5555555",
+    "stock": "10"
+  },
+  {
+    "id": 13,
+    "title": "carne",
+    "description": "rico ",
+    "price": "1000",
+    "thumbnail": "no tiene",
+    "code": "gg12",
+    "stock": "10"
+  },
+  {
+    "id": 14,
+    "title": "papas",
+    "description": "negras",
+    "price": "20",
+    "thumbnail": "no tiene",
+    "code": "42d",
+    "stock": "121"
+  },
+  {
+    "id": 15,
+    "title": "papas",
+    "description": "blancas",
+    "price": "20",
+    "thumbnail": "no tienennn",
+    "code": "42dn",
+    "stock": "1210"
   }
 ]

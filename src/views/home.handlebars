@@ -1,12 +1,30 @@
-<h1>bien cvenido a la vista home</h1>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real Time</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
 
-
+<section class="container">
+ <div class="title-header">
+  <h2>Productos:</h2>
+ </div>
+  {{#if products}}
+  <article class="products-list">
 {{#each products}}
-<h2>{{this.id}} </h2>
-<h3>{{this.title}}</h3>
-<p>{{this.description}}</p>
-  <p> {{this.price}}</p>
-   <p> {{this.thumbnail}}</p>
-   <p> {{this.code}}</p>
- <p>  {{this.stock}}</p>
-{{/each}}
+    <div class="product-card">
+      <img src="https://source.unsplash.com/480x300/?foods&random={{id}}" alt="">
+      <div class="product-info">
+        <h3>{{title}}</h3>
+        <p>ID: {{id}} </p>
+        <p><span>Descripción:</span> <br> {{description}}</p>
+        <p><span>Stock disponible:</span> {{stock}}</p>
+        <p>${{price}}</p>
+   </div>
+    </div>
+    {{/each}}
+  </article>
+  {{else}}
+  <p>No hay productos.</p>
+  {{/if}}
+</section>

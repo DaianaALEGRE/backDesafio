@@ -1,3 +1,10 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real Time</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
 <h1>Real Time Products</h1>
 
 <main>
@@ -9,12 +16,13 @@
     {{#if products}}
     <article class="products-list">
       {{#each products}}
-      <div class="product-card" id="{{id}}">
+      <div class="product-card">
         <div class="product-header">
-          <img src="{{thumbnail}}" alt="{{title}}">
+          <img src="https://source.unsplash.com/480x300/?foods&random={{id}}" alt="">
         </div>
         <div class="product-info">
           <h3>{{title}}</h3>
+          <p>ID {{id}} </p>
           <p><span>Descripción:</span> <br> {{description}}</p>
           <p><span>Stock disponible:</span> {{stock}}</p>
           <p>Precio: ${{price}}</p>
@@ -30,24 +38,50 @@
   <!-- Sección para agregar productos -->
   <section id="addProductSection">
     <h2>Agregar Nuevo Producto</h2>
-    <form id="addProductForm">
-      <input type="text" name="title" placeholder="Título" required>
+    <div>
+      <form id="addProductForm">
+        <label for="title" id="title">Nombre del producto:</label>
+        <input type="text" name="title" placeholder="Título" required>
+    </div>
+    <div>
+      <label for="description" id="description">Descripción del producto:</label>
       <input type="text" name="description" placeholder="Descripción" required>
+    </div>
+    <div>
+      <label for="price" id="price">Precio del producto:</label>
       <input type="number" name="price" placeholder="Precio" required>
+    </div>
+    <div>
+      <label for="thumbnail" id="thumbnail">Imagen del producto:</label>
       <input type="text" name="thumbnail" placeholder="URL de imagen" required>
+    </div>
+    <div>
+
+      <label for="code" id="code">Código del producto:</label>
       <input type="text" name="code" placeholder="Código" required>
+    </div>
+    <div>
+      <label for="stock" id="stock">Stock del producto:</label>
       <input type="number" name="stock" placeholder="Stock" required>
-      <button type="submit">Agregar Producto</button>
+    </div>
+
+    <button type="submit">Agregar Producto</button>
     </form>
+
     <!-- Formulario para eliminar producto -->
     <form id="deleteProductForm">
-      <input type="number" name="productId" id="productId" placeholder="ID del producto a eliminar" required min="1">
+      <div>
+        <label for="ID" id="productId">ID del producto:</label>
+        <input type="number" name="productId" id="productId" placeholder="ID del producto a eliminar" required min="1">
+      </div>
       <button type="submit">Eliminar Producto</button>
+
     </form>
 
     <!-- Contenedor para mostrar mensajes de respuesta -->
     <div id="responseMessage"></div>
   </section>
 </main>
+
 <script src="/socket.io/socket.io.js"></script>
 <script src="js/index.js"></script>
