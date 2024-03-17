@@ -1,18 +1,20 @@
-import {Router} from "express";
-const router = Router(); 
+import { Router } from 'express';
+import ProductManager from '../controller/productsManagerController.js';
+import path from 'path';
 
-//en biblio desde aca renderiza la ruta
-//router.get("/partials/realTime", (req, res) => {
+const router = Router();
 
-app.router('/realtime', (req, res) => {
-  let allProducts =  manager.getProducts();
-  res.render('partials/realTime', { title: 'este es el home', products: allProducts });
+// Obtener la ruta absoluta del directorio actual
+const currentDirectory = path.resolve();
+
+// Construir la ruta completa al archivo product.JSON
+const productFilePath = path.join(currentDirectory, 'src', 'models', 'product.JSON');
+
+const manager = new ProductManager(productFilePath);
+
+router.get('/realtime', (req, res) => {
+  let allProducts = manager.getProducts();
+  res.render('realTime', { title: 'este es el home', products: allProducts });
 });
-//seccion completa que saque de app.get(segun diapo 38 clase 6)
-router.get('/',  (req, res) => {
 
-  let allProducts =  manager.getProducts();
-  res.render('home', { title: 'cosita',products: allProducts });
-
-});
-export default router; 
+export default router;

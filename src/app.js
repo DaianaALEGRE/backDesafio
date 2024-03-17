@@ -1,23 +1,22 @@
-import { fileURLToPath } from 'url';
 import express from 'express';
 import productsRouter from './routes/productsRoutes.js';
 import cartRoutes from './routes/cartRoutes.js'; 
 import multer from 'multer';
-import exphbs from 'express-handlebars';
+import Handlebars from 'express-handlebars';
 import ProductManager from './controller/productsManagerController.js';
-import * as path from 'path';
+import path from 'path';
 import { Server } from 'socket.io';
-
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import viewRoutes from './routes/viewsRoutes.js';
+import __dirname from './utils.js';
 
 const app = express();
 const PORT = 8080;
-const httpServer=app.listen(PORT, () => {
+
+const httpServer = app.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
-const socketServer =new Server(httpServer)
+
+const socketServer = new Server(httpServer);
 
 // Configuración de Multer
 const storage = multer.diskStorage({
@@ -44,20 +43,31 @@ app.post("/upload", upload.single('imagen'), (req, res) => {
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
-//app.use('/',express.static(__dirname + '/public'))
-// Handlebars
-app.engine('handlebars', exphbs.engine());
-app.set('view engine', 'handlebars');
-app.set('views', path.resolve(__dirname, 'views'));
 
+// Handlebars
+app.engine('handlebars', Handlebars.engine());
+app.set('views', path.resolve(__dirname, 'views'));
+app.set('view engine', 'handlebars');
+app.use('/', express.static(path.join(__dirname, 'public')));
+
+socketServer.on('connection', socket => {
+  console.log("Nuevo cliente conectado");
+
+  socket.on('message',data=>{
+     console.log(data)
+  })
+ 
+});
 
 // Instanciar ProductManager con la ruta absoluta del archivo de productos
 const productFilePath = path.resolve(__dirname, 'models', 'product.JSON');
 const manager = new ProductManager(productFilePath);
 
-
-
+app.use('/', viewRoutes);
 app.use('/api/products', productsRouter);
 app.use("/api/carts", cartRoutes);
 
-
+app.get('/', (req, res) => {
+  let allProducts = manager.getProducts();
+  res.render('home', { title: 'cosita', products: allProducts });
+});

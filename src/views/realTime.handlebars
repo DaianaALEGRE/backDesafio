@@ -1,0 +1,51 @@
+<h1>real time </h1>
+<main>
+  <!-- Sección de todos los productos -->
+  <section id="allProducts">
+    <div class="title-header">
+      <h2>Productos:</h2>
+    </div>
+    {{#if products}}
+    <article class="products-list">
+      {{#each products}}
+      <div class="product-card" id="{{id}}">
+        <div class="product-header">
+          <img src="https://source.unsplash.com/480x300/?foods&random={{id}}" alt="">
+        </div>
+        <div class="product-info">
+          <h3>{{title}}</h3>
+          <p><span>Descripción:</span> <br> {{description}}</p>
+          <p><span>Stock disponible:</span> {{stock}}</p>
+          <p>${{price}}</p>
+        </div>
+      </div>
+      {{/each}}
+    </article>
+    {{else}}
+    <p>No hay productos.</p>
+    {{/if}}
+  </section>
+  <!-- Sección para agregar productos -->
+  <section id="addProductSection">
+    <h2>Agregar Nuevo Producto</h2>
+    <form id="addProductForm">
+      <input type="text" name="title" placeholder="Título" required>
+      <input type="text" name="description" placeholder="Descripción" required>
+      <input type="number" name="price" placeholder="Precio" required>
+      <input type="text" name="thumbnail" placeholder="URL de imagen" required>
+      <input type="text" name="code" placeholder="Código" required>
+      <input type="number" name="stock" placeholder="Stock" required>
+      <button type="submit">Agregar Producto</button>
+    </form>
+    <!-- Formulario para eliminar producto -->
+    <form id="deleteProductForm">
+      <input type="number" name="productId" id="productId" placeholder="ID del producto a eliminar" required min="1">
+      <button type="submit">Eliminar Producto</button>
+    </form>
+
+    <!-- Contenedor para mostrar mensajes de respuesta -->
+    <div id="responseMessage"></div>
+  </section>
+</main>
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/index.js"></script>
