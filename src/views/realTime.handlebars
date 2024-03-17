@@ -1,4 +1,5 @@
-<h1>real time </h1>
+<h1>Real Time Products</h1>
+
 <main>
   <!-- Sección de todos los productos -->
   <section id="allProducts">
@@ -10,21 +11,22 @@
       {{#each products}}
       <div class="product-card" id="{{id}}">
         <div class="product-header">
-          <img src="https://source.unsplash.com/480x300/?foods&random={{id}}" alt="">
+          <img src="{{thumbnail}}" alt="{{title}}">
         </div>
         <div class="product-info">
           <h3>{{title}}</h3>
           <p><span>Descripción:</span> <br> {{description}}</p>
           <p><span>Stock disponible:</span> {{stock}}</p>
-          <p>${{price}}</p>
+          <p>Precio: ${{price}}</p>
         </div>
       </div>
       {{/each}}
     </article>
     {{else}}
-    <p>No hay productos.</p>
+    <p>No hay productos disponibles.</p>
     {{/if}}
   </section>
+
   <!-- Sección para agregar productos -->
   <section id="addProductSection">
     <h2>Agregar Nuevo Producto</h2>

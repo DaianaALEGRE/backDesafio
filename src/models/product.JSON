@@ -1,14 +1,5 @@
 [
   {
-    "id": 1,
-    "title": "Producto prueba 1",
-    "description": "Descripción 1",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc124",
-    "stock": 30
-  },
-  {
     "id": 2,
     "title": "dasdasd",
     "description": "temon",
@@ -33,15 +24,6 @@
     "price": 90,
     "thumbnail": "imagen",
     "code": "asd123",
-    "stock": 50
-  },
-  {
-    "id": 7,
-    "title": "producto prueba 7",
-    "description": "este es un producto de prueba",
-    "price": 90,
-    "thumbnail": "imagen",
-    "code": "asd125",
     "stock": 50
   },
   {
@@ -70,5 +52,14 @@
     "thumbnail": "no tiene",
     "code": "gatogordo",
     "stock": 1
+  },
+  {
+    "id": 11,
+    "title": "una cosa",
+    "description": "algo q es una cosa",
+    "price": "1000",
+    "thumbnail": "https://www.freepik.es/foto-gratis/primer-plano-fondo-textura-glaseado-caramelo_18141770.htm#fromView=search&page=1&position=2&uuid=3672f2b2-5154-4d7b-ae85-7f1ec72d09b8",
+    "code": "547869",
+    "stock": "10"
   }
 ]
