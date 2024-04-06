@@ -1,114 +1,105 @@
-import fs from 'fs';
+import ProductModel from "../models/products.models.js"
 
 class ProductManager {
-  static idCount = 1;
-  static products = [];
-
-  constructor(path) {
-    this.path = path;
-    this.products = [];
-    this.loadProducts();
-  }
-  addProduct(title, description, price, thumbnail, code, stock) {
+  async addProduct({ title, description, price, img, code, stock, category, thumbnails }) {
     try {
-      if (!title || !description || !price || !thumbnail || !code || !stock) {
-        throw new Error("Por favor complete todos los campos");
-      }
-      if (this.products.some(item => item.code === code)) {
-        throw new Error(`El código ${code} ya está en uso`);
-      }
-      const maxId = this.products.reduce((max, product) => Math.max(max, product.id), 0);
-      const product = {
-        id: maxId + 1, 
-        title: title,
-        description: description,
-        price: price,
-        thumbnail: thumbnail,
-        code: code,
-        stock: stock,
-      };
 
-      this.products.push(product);
-      this.saveProducts();
-      console.log(`Producto añadido correctamente con ID: ${product.id}`);
-    } catch (error) {
-      console.error("Error al agregar producto:", error.message);
-    }
-  }
 
-  saveProducts() {
-    try {
-      fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2), 'utf8');
-
-      console.log('Productos guardados correctamente.');
-    } catch (error) {
-      console.error('Error al guardar los productos:', error);
-    }
-  }
-
-  loadProducts() {
-    try {
-      const data = fs.readFileSync(this.path, 'utf8');
-      this.products = JSON.parse(data);
-      console.log('Productos cargados correctamente.');
-    } catch (error) {
-      console.error('Error al cargar los productos:', error);
-    }
-  }
-
-  getProducts() {
-    return this.products;
-  }
-
-  getProductById(id) {
-    const item = this.products.find(item => item.id === id)
-
-    if (!item) {
-      throw new Error("Producto no encontrado");
-    } else {
-      return item;
-    }
-  }
-
-  updateProduct(id, updatedProduct) {
-    try {
-        const productIndex = this.products.findIndex(item => item.id === id);
-        if (productIndex === -1) {
-            throw new Error("No se encontró el producto");
+        if (!title || !description || !price || !code || !stock || !category) {
+            console.log("Todos los campos son obligatorios");
+            return;
         }
 
-        for (let key in updatedProduct) {
-            if (updatedProduct.hasOwnProperty(key)) {
-                this.products[productIndex][key] = updatedProduct[key];
-            }
+        const existeProducto = await ProductModel.findOne({ code: code })
+
+        if (existeProducto) {
+            console.log("El codigo debe ser unico")
+            return;
         }
 
-        console.log(`Producto con ID ${id} actualizado correctamente.`);
-        this.saveProducts(); 
+        const newProduct =  new ProductModel({
+            title,
+            description,
+            price,
+            img,
+            code,
+            stock,
+            category,
+            status: true,
+            thumbnails: thumbnails || []
+        });
+
+        await newProduct.save();
+
     } catch (error) {
-        console.error("Error al actualizar producto:", error.message);
+        console.log("Error al agregar producto", error);
+        throw error;
+    }
+}
+async getProducts() {
+    try {
+        const productos = await ProductModel.find();
+        return productos;
+    } catch (error) {
+        console.log("Error al recuperar productos", error);
+        throw error;
     }
 }
 
-  deleteProduct(id) {
-    const index = this.products.findIndex(item => item.id === id);
+async getProductById(id) {
     try {
-      if (index === -1) {
-        throw new Error(`No se encontró el producto con ID ${id}`);
-      }
+        const producto = await ProductModel.findById(id);
 
-      this.products.splice(index, 1);
-      console.log(`Producto con ID ${id} eliminado correctamente.`);
-      this.saveProducts();
+        if (!producto) {
+            console.log("Producto no encontrado");
+            return null;
+        } else {
+            console.log("Producto encontrado");
+            return producto;
+        }
     } catch (error) {
-      console.error("Error al eliminar producto:", error.message);
+        console.log("Error al buscar producto por id", error);
+        throw error;
     }
-  }
 }
-// add get getbyid
+
+async updateProduct(id, productoActualizado) {
+    try {
+
+        const updateProduct = await ProductModel.findByIdAndUpdate(id, productoActualizado);
+
+        if (!updateProduct) {
+            console.log("Producto no encontrado, vamos a morir");
+            return null;
+        }
+
+        console.log("Producto actualizado: ");
+        return updateProduct;
 
 
-const manager = new ProductManager('./src/models/product.JSON');
+    } catch (error) {
+        console.log("Error al actualizar el producto", error);
+        throw error;
+    }
+}
 
+async deleteProduct(id) {
+    try {
+
+        const deleteProduct = await ProductModel.findByIdAndDelete(id);
+
+        if (!deleteProduct) {
+            console.log("Producto no encontrado, vamos a morir");
+            return null;
+        }
+
+        console.log("Producto eliminado");
+       
+    } catch (error) {
+        console.log("Error al eliminar producto", error);
+        throw error;
+    }
+}
+}
 
 export default ProductManager;

@@ -8,12 +8,15 @@ import path from 'path';
 import { Server } from 'socket.io';
 import viewRoutes from './routes/viewsRoutes.js';
 import __dirname from './utils.js';
+import database from './database.js';
+//import MessageModel from './models/messages.models.js';
+
 
 const app = express();
 const PORT = 8080;
 
 const httpServer = app.listen(PORT, () => {
-  console.log(`Servidor escuchando en el puerto ${PORT}`);
+  console.log(`Servidor escuchando en el puerto.. ${PORT}`);
 });
 
 const socketServer = new Server(httpServer);
@@ -93,5 +96,7 @@ app.get('/', (req, res) => {
   let allProducts = manager.getProducts();
   res.render('home', { title: 'cosita', products: allProducts });
 });
+
+
 
 export default app;

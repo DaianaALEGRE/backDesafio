@@ -1,50 +1,22 @@
-import fs from 'fs/promises';
+import CartModel from "../models/cart.models.js";
 
 
 class CartManager {
-    constructor(path) {
-        this.carts = [];
-        this.path = path;
-        this.ultId = 0;
 
-        this.upCarts();
-    }
-
-    async upCarts() {
+    async crearCarrito() {
         try {
-            const data = await fs.readFile(this.path, "utf8");
-            this.carts = JSON.parse(data);
-            if (this.carts.length > 0) {
-               
-                this.ultId = Math.max(...this.carts.map(cart => cart.id));
- 
-            }
+            const nuevoCarrito = new CartModel({ products: [] });
+            await nuevoCarrito.save();
+            return nuevoCarrito;
         } catch (error) {
-            console.error("Error al cargar los carritos desde el archivo", error);
-    
-            await this.saveCarts();
+            console.log("Error al crear el carrito", error)
+            throw error;
         }
     }
 
-    async saveCarts() {
-        await fs.writeFile(this.path, JSON.stringify(this.carts, null, 2));
-    }
-
-    async cCart() {
-        const nuevoCarrito = {
-            id: ++this.ultId,
-            products: []
-        };
-
-        this.carts.push(nuevoCarrito);
-
-        await this.saveCarts();
-        return nuevoCarrito;
-    }
-
-    async getCartById(cartId) {
+    async getCarritoById(cartId) {
         try {
-            const carrito = this.carts.find(c => c.id === cartId);
+            const carrito = await CartModel.findById(cartId);
 
             if (!carrito) {
                 throw new Error(`No existe un carrito con el id ${cartId}`);
@@ -57,18 +29,25 @@ class CartManager {
         }
     }
 
-    async addPCart(cartId, productId, quantity = 1) {
-        const carrito = await this.getCartById(cartId);
-        const existeProducto = carrito.products.find(p => p.product === productId);
+    async agregarProductoAlCarrito(cartId, productId, quantity = 1) {
+        try {
+            const carrito = await this.getCarritoById(cartId);
+            const existeProducto = carrito.products.find(item => item.product.toString() === productId);
 
-        if (existeProducto) {
-            existeProducto.quantity += quantity;
-        } else {
-            carrito.products.push({ product: productId, quantity });
+            if (existeProducto) {
+                existeProducto.quantity += quantity;
+            } else {
+                carrito.products.push({ product: productId, quantity });
+            }
+
+            carrito.markModified("products");
+
+            await carrito.save();
+            return carrito;
+        } catch (error) {
+            console.error("Error al agregar un producto", error);
+            throw error;
         }
-
-        await this.saveCarts();
-        return carrito;
     }
 }
 
