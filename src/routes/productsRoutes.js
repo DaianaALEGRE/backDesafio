@@ -1,33 +1,75 @@
-import { Router } from 'express';
-import productsModels from '../models/products.models.js';
-const productsRouter = Router();
+import express  from 'express';
+import ProductManager from '../controller/productsManagerController.js'; 
+const router = express.Router();
+
+const productManager = new ProductManager("./src/models/productos.json");
 
 
-
-productsRouter.post("/", (req, res) => {
-    const products = req.body;
-    manager.addProduct(products.title, products.description, products.price, products.img, products.code, products.stock ,products.category,products.status);
-    
-    res.send({ status: "success", Message: "producto creado" });
-});
-
-
-
-productsRouter.get("/", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
-        const products = await productsModels.find();
-        res.json(products);
+        const limit = req.query.limit;
+        const productos = await productManager.getProducts();
+        if (limit) {
+            res.json(productos.slice(0, limit));
+        } else {
+            res.json(productos);
+        }
     } catch (error) {
-        res.status(500).json({ message: "error en el servidor" });
+        console.error("Error al obtener productos", error);
+        res.status(500).json({
+            error: "Error interno del servidor"
+        });
     }
 });
+
+//2) Traer solo un producto por id: 
+
+router.get("/:pid", async (req, res) => {
+    const id = req.params.pid;
+
+    try {
+        const producto = await productManager.getProductById(parseInt(id));
+        if (!producto) {
+            return res.json({
+                error: "Producto no encontrado"
+            });
+        }
+
+        res.json(producto);
+    } catch (error) {
+        console.error("Error al obtener producto", error);
+        res.status(500).json({
+            error: "Error interno del servidor"
+        });
+    }
+});
+
+
+//3) Agregar nuevo producto: 
+
+router.post("/", async (req, res) => {
+    const nuevoProducto = req.body;
+
+    try {
+        await productManager.addProduct(nuevoProducto);
+        res.status(201).json({
+            message: "Producto agregado exitosamente"
+        });
+    } catch (error) {
+        console.error("Error al agregar producto", error);
+        res.status(500).json({
+            error: "Error interno del servidor"
+        });
+    }
+});
+
 //4) Actualizar por ID
-productsRouter.put("/:pid", async (req, res) => {
+router.put("/:pid", async (req, res) => {
     const id = req.params.pid;
     const productoActualizado = req.body;
 
     try {
-        await manager.updateProduct((id), productoActualizado);
+        await productManager.updateProduct(parseInt(id), productoActualizado);
         res.json({
             message: "Producto actualizado exitosamente"
         });
@@ -41,11 +83,11 @@ productsRouter.put("/:pid", async (req, res) => {
 
 //5) Eliminar producto: 
 
-productsRouter.delete("/:pid", async (req, res) => {
+router.delete("/:pid", async (req, res) => {
     const id = req.params.pid;
 
     try {
-        await manager.deleteProduct((id));
+        await productManager.deleteProduct(parseInt(id));
         res.json({
             message: "Producto eliminado exitosamente"
         });
@@ -56,6 +98,4 @@ productsRouter.delete("/:pid", async (req, res) => {
         });
     }
 });
-
-
-export default productsRouter;
+export default router;
