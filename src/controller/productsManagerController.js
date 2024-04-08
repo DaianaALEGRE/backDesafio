@@ -1,11 +1,11 @@
 import ProductModel from "../models/products.models.js"
 
 class ProductManager {
-  async addProduct({ title, description, price, img, code, stock, category, thumbnails }) {
+  async addProduct({ title, description, price, img, code, stock, category,status, thumbnails }) {
     try {
 
 
-        if (!title || !description || !price || !code || !stock || !category) {
+        if (!title || !description || !price || !code || !stock || !category|| !status ) {
             console.log("Todos los campos son obligatorios");
             return;
         }
@@ -69,7 +69,7 @@ async updateProduct(id, productoActualizado) {
         const updateProduct = await ProductModel.findByIdAndUpdate(id, productoActualizado);
 
         if (!updateProduct) {
-            console.log("Producto no encontrado, vamos a morir");
+            console.log("Producto no encontrado");
             return null;
         }
 
@@ -89,7 +89,7 @@ async deleteProduct(id) {
         const deleteProduct = await ProductModel.findByIdAndDelete(id);
 
         if (!deleteProduct) {
-            console.log("Producto no encontrado, vamos a morir");
+            console.log("Producto no encontrado");
             return null;
         }
 
