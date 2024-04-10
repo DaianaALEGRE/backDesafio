@@ -3,7 +3,7 @@ import CartModel from "../models/cart.models.js";
 
 class CartManager {
 
-    async crearCarrito() {
+    async createCart() {
         try {
             const nuevoCarrito = new CartModel({ products: [] });
             await nuevoCarrito.save();
@@ -14,7 +14,7 @@ class CartManager {
         }
     }
 
-    async getCarritoById(cartId) {
+    async getCartById(cartId) {
         try {
             const carrito = await CartModel.findById(cartId);
 
@@ -29,9 +29,9 @@ class CartManager {
         }
     }
 
-    async agregarProductoAlCarrito(cartId, productId, quantity = 1) {
+    async addProductCart(cartId, productId, quantity = 1) {
         try {
-            const carrito = await this.getCarritoById(cartId);
+            const carrito = await this.getCartById(cartId);
             const existeProducto = carrito.products.find(item => item.product.toString() === productId);
 
             if (existeProducto) {

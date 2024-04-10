@@ -2,33 +2,48 @@ import express  from 'express';
 import ProductManager from '../controller/productsManagerController.js'; 
 const router = express.Router();
 
-const productManager = new ProductManager("./src/models/productos.json");
-
+const productManager =new ProductManager();
 
 router.get("/", async (req, res) => {
     try {
-        const limit = req.query.limit;
-        const productos = await productManager.getProducts();
-        if (limit) {
-            res.json(productos.slice(0, limit));
-        } else {
-            res.json(productos);
-        }
+        const { limit = 10, page = 1, sort, query } = req.query;
+
+        const productos = await productManager.getProducts({
+            limit: parseInt(limit),
+            page: parseInt(page),
+            sort,
+            query,
+        });
+
+        res.json({
+            status: 'success',
+            payload: productos,
+            totalPages: productos.totalPages,
+            prevPage: productos.prevPage,
+            nextPage: productos.nextPage,
+            page: productos.page,
+            hasPrevPage: productos.hasPrevPage,
+            hasNextPage: productos.hasNextPage,
+            prevLink: productos.hasPrevPage ? `/api/products?limit=${limit}&page=${productos.prevPage}&sort=${sort}&query=${query}` : null,
+            nextLink: productos.hasNextPage ? `/api/products?limit=${limit}&page=${productos.nextPage}&sort=${sort}&query=${query}` : null,
+        });
+
     } catch (error) {
         console.error("Error al obtener productos", error);
         res.status(500).json({
+            status: 'error',
             error: "Error interno del servidor"
         });
     }
 });
 
-//2) Traer solo un producto por id: 
+
 
 router.get("/:pid", async (req, res) => {
     const id = req.params.pid;
 
     try {
-        const producto = await productManager.getProductById(parseInt(id));
+        const producto = await productManager.getProductById(id);
         if (!producto) {
             return res.json({
                 error: "Producto no encontrado"
@@ -45,7 +60,7 @@ router.get("/:pid", async (req, res) => {
 });
 
 
-//3) Agregar nuevo producto: 
+
 
 router.post("/", async (req, res) => {
     const nuevoProducto = req.body;
@@ -63,13 +78,13 @@ router.post("/", async (req, res) => {
     }
 });
 
-//4) Actualizar por ID
+
 router.put("/:pid", async (req, res) => {
     const id = req.params.pid;
     const productoActualizado = req.body;
 
     try {
-        await productManager.updateProduct(parseInt(id), productoActualizado);
+        await productManager.updateProduct(id, productoActualizado);
         res.json({
             message: "Producto actualizado exitosamente"
         });
@@ -81,13 +96,13 @@ router.put("/:pid", async (req, res) => {
     }
 });
 
-//5) Eliminar producto: 
+
 
 router.delete("/:pid", async (req, res) => {
     const id = req.params.pid;
 
     try {
-        await productManager.deleteProduct(parseInt(id));
+        await productManager.deleteProduct(id);
         res.json({
             message: "Producto eliminado exitosamente"
         });
@@ -98,4 +113,5 @@ router.delete("/:pid", async (req, res) => {
         });
     }
 });
+
 export default router;

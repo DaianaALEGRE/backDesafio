@@ -92,10 +92,6 @@ app.use('/', viewRoutes);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartRoutes);
 
-app.get('/', (req, res) => {
-  let allProducts = manager.getProducts();
-  res.render('home', { title: 'cosita', products: allProducts });
-});
 
 
 

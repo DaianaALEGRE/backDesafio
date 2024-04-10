@@ -102,4 +102,8 @@ async deleteProduct(id) {
 }
 }
 
+//const productManager = new ProductManager();
+//const gato = await productManager.getProducts();
+//console.log(gato);
+
 export default ProductManager;

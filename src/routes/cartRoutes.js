@@ -1,12 +1,12 @@
 import express from 'express';
 const router = express.Router();
-import CartManager from "../controller/cartController.js"; // Asegúrate de la ruta correcta
-const cartManager = new CartManager("./src/models/carts.json");
+import CartManager from "../controller/cartController.js";
+const cartManager = new CartManager("../models/cart.models.js");
 
 
 router.post("/", async (req, res) => {
     try {
-        const nuevoCarrito = await cartManager.cCart();
+        const nuevoCarrito = await cartManager.createCart();
         res.json(nuevoCarrito);
     } catch (error) {
         console.error("Error al crear un nuevo carrito", error);
@@ -36,7 +36,7 @@ router.post("/:cid/product/:pid", async (req, res) => {
     const quantity = req.body.quantity || 1;
 
     try {
-        const updateCart= await cartManager.addPCart(cartId, productId, quantity);
+        const updateCart= await cartManager.addProductCart(cartId, productId, quantity);
         res.json(updateCart.products);
     } catch (error) {
         console.error("Error al agregar producto al carrito", error);
