@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    text-decoration: none;
   }
   
   body {
@@ -12,13 +13,13 @@
   
   a {
     text-decoration: none;
-    color: #fff;
+    color: #000000;
     transition: .2s;
   }
   
   a:hover {
     color: beige;
-    text-decoration: underline;
+    
   }
   
   

@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+//import mongoosePaginate from 'mongoose-paginate-v2';
+
 
 const productSchema = new mongoose.Schema({
     title: {
@@ -33,7 +35,7 @@ const productSchema = new mongoose.Schema({
         type: [String],
     }
 })
-
+//productSchema.plugin(mongoosePaginate);esta usando skip y limit en getproducts!
 const ProductModel = mongoose.model("products", productSchema);
 
 export default ProductModel;

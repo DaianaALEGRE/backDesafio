@@ -14,7 +14,7 @@ router.get("/products", async (req, res) => {
         page: parseInt(page),
         limit: parseInt(limit)
      });
-     const productosFormateados = productos.map(producto => ({
+     const productosFormateados= productos.docs.map(producto => ({
       title: producto.title,
       description: producto.description,
       price: producto.price,
