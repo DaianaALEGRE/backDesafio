@@ -14,12 +14,13 @@ class CartManager {
         }
     }
 
-    async getCartById(cartId) {
+    async getCartById(cid) {
         try {
-            const carrito = await CartModel.findById(cartId);
-
+           
+        const carrito = await CartModel.findById(cid);
+ console.log( cid);
             if (!carrito) {
-                throw new Error(`No existe un carrito con el id ${cartId}`);
+                throw new Error(`No existe un carrito con el id ${cid}`);
             }
 
             return carrito;
@@ -29,9 +30,9 @@ class CartManager {
         }
     }
 
-    async addProductCart(cartId, productId, quantity = 1) {
+    async addProductCart(cid, productId, quantity = 1) {
         try {
-            const carrito = await this.getCartById(cartId);
+            const carrito = await this.getCartById(cid);
             const existeProducto = carrito.products.find(item => item.product.toString() === productId);
 
             if (existeProducto) {
@@ -49,6 +50,19 @@ class CartManager {
             throw error;
         }
     }
+
+    async  getAllCarts() {
+        try {
+            const carts = await CartModel.find();
+            return carts;
+        } catch (error) {
+            console.error("Error al obtener todos los carritos", error);
+            throw error;
+        }
+    }
+
 }
+
+
 
 export default CartManager;
